@@ -1,0 +1,7 @@
+Django
+gunicorn
+opentelemetry-api
+opentelemetry-sdk
+opentelemetry-instrumentation-django
+opentelemetry-exporter-otlp
+python-dotenv

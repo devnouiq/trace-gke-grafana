@@ -1,0 +1,34 @@
+# Python/Django files to ignore
+
+# Byte-compiled files
+*.pyc
+*.pyo
+__pycache__/
+
+# Virtual environment
+env/
+venv/
+
+# Django secret key file
+*.env
+
+# Local database
+*.sqlite3
+
+# Media and static files
+/media/
+staticfiles/
+
+# Django migrations
+*.log
+*.pot
+*.py[co]
+migrations/
+
+# IDE files
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db

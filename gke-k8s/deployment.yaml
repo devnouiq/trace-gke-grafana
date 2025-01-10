@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trace-application
+  namespace: monitoring
+  labels:
+    app: trace-application
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trace-application
+  template:
+    metadata:
+      labels:
+        app: trace-application
+    spec:
+      containers:
+      - name: trace-application
+        image: harshfps/trace-application:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+      volumes:
+      - name: config-volume
+        configMap:
+          name: trace-application-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trace-application-service
+  namespace: monitoring
+  labels:
+    app: trace-application
+spec:
+  selector:
+    app: trace-application
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  type: NodePort
