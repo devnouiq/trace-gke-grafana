@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Get Tempo endpoint from the environment
-otel_endpoint = os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://tempo.monitoring.svc.cluster.local:4318/v1/traces")
+otel_endpoint = os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT")
 
 # Set Django settings module
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'helloworld.settings')
