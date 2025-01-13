@@ -67,10 +67,11 @@ jobs:
     - name: Deploy Application using Helm
       run: |
         helm upgrade --install ${{ env.APP_NAME }} ./helmchart \
-          --namespace ${{ env.NAMESPACE }} \
-          --set image.repository=${{ secrets.DOCKER_USERNAME }}/helloworld \
-          --set image.tag=${{ github.sha }} \
-          --create-namespace
+        --namespace ${{ env.NAMESPACE }} \
+        --set image.repository=${{ secrets.DOCKER_USERNAME }}/helloworld \
+        --set image.tag=${{ github.sha }} \
+        --create-namespace \
+        --force
 
     - name: Verify Deployment
       run: |
