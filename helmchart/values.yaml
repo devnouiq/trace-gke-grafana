@@ -1,8 +1,10 @@
 # Default values for HelloWorld Helm Chart.
 replicaCount: 1
 
+namespace: monitoring
+
 image:
-  repository: docker.io/your-docker-username/helloworld
+  repository: docker.io/harshfps/helloworld
   tag: latest
   pullPolicy: Always
 

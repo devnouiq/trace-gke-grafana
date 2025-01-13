@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -15,13 +16,8 @@ spec:
       serviceAccountName: {{ .Release.Name }}
       containers:
         - name: {{ .Release.Name }}
-          image: "{{ .Values.image.repository }}"
-          {{- if .Values.command }}
-          command: {{ .Values.command }}
-          {{- end }}
-          {{- if .Values.args }}
-          args: {{ .Values.args }}
-          {{- end }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.targetPort }}
           env:
@@ -30,20 +26,13 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.env.secretName }}
                   key: EXAMPLE_KEY
-          {{- if .Values.resources }}
           resources:
-            {{- if .Values.resources.limits }}
             limits:
               cpu: {{ .Values.resources.limits.cpu }}
               memory: {{ .Values.resources.limits.memory }}
-            {{- end }}
-            {{- if .Values.resources.requests }}
             requests:
               cpu: {{ .Values.resources.requests.cpu }}
               memory: {{ .Values.resources.requests.memory }}
-            {{- end }}
-          {{- end }}
-          {{- if .Values.probes.enabled }}
           livenessProbe:
             httpGet:
               path: {{ .Values.probes.liveness.path }}
@@ -54,4 +43,3 @@ spec:
               path: {{ .Values.probes.readiness.path }}
               port: {{ .Values.service.targetPort }}
             initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds }}
-          {{- end }}
