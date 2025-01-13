@@ -1,20 +1,11 @@
-# Default values for HelloWorld Helm Chart.
 replicaCount: 1
 
 namespace: monitoring
-
-image:
-  repository: docker.io/harshfps/helloworld
-  tag: latest
-  pullPolicy: Always
 
 service:
   type: LoadBalancer
   port: 80
   targetPort: 8080
-
-env:
-  secretName: helloworld-env-secrets
 
 resources:
   limits:

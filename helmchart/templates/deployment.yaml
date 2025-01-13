@@ -17,15 +17,9 @@ spec:
       containers:
         - name: {{ .Release.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: Always
           ports:
             - containerPort: {{ .Values.service.targetPort }}
-          env:
-            - name: ENV_VAR_EXAMPLE
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.env.secretName }}
-                  key: EXAMPLE_KEY
           resources:
             limits:
               cpu: {{ .Values.resources.limits.cpu }}
