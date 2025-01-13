@@ -10,6 +10,7 @@ env:
   AWS_REGION: "us-east-1"
   CLUSTER_NAME: "noise-dev"
   DOCKER_IMAGE: "docker.io/${{ secrets.DOCKER_USERNAME }}/$APP_NAME:${{ github.sha }}"
+  NAMESPACE: "monitoring"
 
 jobs:
   build-and-push:
@@ -66,12 +67,12 @@ jobs:
     - name: Deploy Application using Helm
       run: |
         helm upgrade --install ${{ env.APP_NAME }} ./helmchart \
-          --namespace default \
+          --namespace ${{ env.NAMESPACE }} \
           --set image.repository=${{ secrets.DOCKER_USERNAME }}/helloworld \
           --set image.tag=${{ github.sha }} \
           --create-namespace
 
     - name: Verify Deployment
       run: |
-        kubectl get pods -n default
-        kubectl describe deployment ${{ env.APP_NAME }} -n default
+        kubectl get pods -n ${{ env.NAMESPACE }}
+        kubectl describe deployment ${{ env.APP_NAME }} -n ${{ env.NAMESPACE }}
