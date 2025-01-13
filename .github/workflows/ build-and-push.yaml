@@ -9,7 +9,7 @@ env:
   APP_NAME: "helloworld"
   AWS_REGION: "us-east-1"
   CLUSTER_NAME: "noise-dev"
-  DOCKER_IMAGE: "docker.io/${{ secrets.DOCKER_USERNAME }}/$APP_NAME:${{ github.sha }}"
+  DOCKER_IMAGE: "docker.io/${{ secrets.DOCKER_USERNAME }}/$APP_NAME:latest"
   NAMESPACE: "monitoring"
 
 jobs:
@@ -37,7 +37,6 @@ jobs:
         push: true
         tags: |
           ${{ secrets.DOCKER_USERNAME }}/helloworld:latest
-          ${{ secrets.DOCKER_USERNAME }}/helloworld:${{ github.sha }}
 
   deploy:
     name: Deploy to EKS
@@ -69,7 +68,7 @@ jobs:
           helm upgrade --install ${{ env.APP_NAME }} ./helmchart \
             --namespace ${{ env.NAMESPACE }} \
             --set image.repository=${{ secrets.DOCKER_USERNAME }}/helloworld \
-            --set image.tag=${{ github.sha }} \
+            --set image.tag=latest \
             --create-namespace \
             --force
 
