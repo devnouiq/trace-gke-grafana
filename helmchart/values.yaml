@@ -29,3 +29,6 @@ probes:
     periodSeconds: 5
     timeoutSeconds: 2
     failureThreshold: 3
+
+serviceAccount:
+  create: true
