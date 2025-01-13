@@ -1,8 +1,13 @@
 replicaCount: 1
+
 namespace: monitoring
 
+image:
+  repository: "docker.io/${{ secrets.DOCKER_USERNAME }}/helloworld"
+  tag: latest
+
 service:
-  type: LoadBalancer  # Use LoadBalancer to provision external IP
+  type: LoadBalancer  # Expose service through LoadBalancer
   port: 8080
   targetPort: 8080
 

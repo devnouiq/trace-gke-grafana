@@ -63,14 +63,18 @@ jobs:
       with:
         version: 'latest'
 
+    - name: Delete existing Ingress if it exists
+      run: |
+        kubectl delete ingress helloworld-ingress -n ${{ env.NAMESPACE }} || echo "Ingress not found"
+
     - name: Deploy Application using Helm
       run: |
-          helm upgrade --install ${{ env.APP_NAME }} ./helmchart \
-            --namespace ${{ env.NAMESPACE }} \
-            --set image.repository=${{ secrets.DOCKER_USERNAME }}/helloworld \
-            --set image.tag=latest \
-            --create-namespace \
-            --force
+        helm upgrade --install ${{ env.APP_NAME }} ./helmchart \
+          --namespace ${{ env.NAMESPACE }} \
+          --set image.repository=${{ secrets.DOCKER_USERNAME }}/helloworld \
+          --set image.tag=latest \
+          --create-namespace \
+          --force
 
     - name: Verify Deployment
       run: |
