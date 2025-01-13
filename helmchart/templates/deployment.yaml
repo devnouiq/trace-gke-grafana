@@ -20,20 +20,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: {{ .Values.service.targetPort }}
-          resources:
-            limits:
-              cpu: {{ .Values.resources.limits.cpu }}
-              memory: {{ .Values.resources.limits.memory }}
-            requests:
-              cpu: {{ .Values.resources.requests.cpu }}
-              memory: {{ .Values.resources.requests.memory }}
-          livenessProbe:
-            httpGet:
-              path: {{ .Values.probes.liveness.path }}
-              port: {{ .Values.service.targetPort }}
-            initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds }}
-          readinessProbe:
-            httpGet:
-              path: {{ .Values.probes.readiness.path }}
-              port: {{ .Values.service.targetPort }}
-            initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds }}
+          env:
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: otel-endpoint-secret
+                  key: OTEL_EXPORTER_OTLP_ENDPOINT
