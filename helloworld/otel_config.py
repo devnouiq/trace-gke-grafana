@@ -11,7 +11,7 @@ def setup_tracing(endpoint):
     """
     resource = Resource(attributes={
         "service.name": "django-helloworld",
-        "environment": "local",  # Customize for staging, production, etc.
+        "environment": "Dev",  # Customize for staging, production, etc.
     })
 
     # Initialize TracerProvider
