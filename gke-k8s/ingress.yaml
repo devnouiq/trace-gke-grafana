@@ -2,25 +2,19 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: grafana-ingress
-  namespace: monitoring # Ensure it matches the namespace where Grafana is deployed
+  namespace: monitoring
   annotations:
-    kubernetes.io/ingress.class: "nginx" # Specify the Ingress class (e.g., NGINX)
-    nginx.ingress.kubernetes.io/rewrite-target: / # For path-based routing
-    nginx.ingress.kubernetes.io/ssl-redirect: "false" # Disable SSL redirect for testing (adjust for production)
-    kubernetes.io/ingress.global-static-ip-name: gloroots-recrew-backend-staging # Specify the static IP name
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: "gloroots-grafana-staging-static-ip"
 spec:
   rules:
-  - host: grafana.stagging.recrew.ai # Replace with your custom domain
+  - host: grafana.staging.recrew.ai
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: grafana # Replace with your Grafana service name
+            name: grafana  # The service name in the monitoring namespace
             port:
-              number: 80 # Replace with the target port of your Grafana service
-  tls:
-  - hosts:
-    - grafana.stagging.recrew.ai
-    secretName: grafana-tls # Replace with the name of your TLS secret
+              number: 80   # Grafana’s service port
