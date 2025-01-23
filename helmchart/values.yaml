@@ -1,6 +1,6 @@
 replicaCount: 1
 
-namespace: monitoring
+namespace: test-deploy
 
 image:
   repository: "docker.io/${{ secrets.DOCKER_USERNAME }}/helloworld"
