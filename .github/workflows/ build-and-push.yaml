@@ -8,9 +8,8 @@ on:
 env:
   APP_NAME: "helloworld"
   AWS_REGION: "us-east-1"
-  CLUSTER_NAME: "noise-dev"
-  DOCKER_IMAGE: "docker.io/${{ secrets.DOCKER_USERNAME }}/$APP_NAME:latest"
-  NAMESPACE: "monitoring"
+  CLUSTER_NAME: "noise-eks-dev"
+  NAMESPACE: "test-deploy"
 
 jobs:
   build-and-push:
@@ -62,6 +61,10 @@ jobs:
       uses: azure/setup-helm@v3
       with:
         version: 'latest'
+
+    - name: Ensure Namespace Exists
+      run: |
+        kubectl create namespace ${{ env.NAMESPACE }} || echo "Namespace already exists"
 
     - name: Delete existing Ingress if it exists
       run: |
