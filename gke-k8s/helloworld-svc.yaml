@@ -7,8 +7,7 @@ spec:
   selector:
     app: helloworld
   ports:
-    - name: web
-      port: 8080          # External port
-      targetPort: 8000    # Match the application's port
+    - port: 8080          # External port to expose the service
+      targetPort: 8000    # Application's listening port inside the pod
       protocol: TCP
   type: LoadBalancer

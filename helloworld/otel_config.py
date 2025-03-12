@@ -2,7 +2,7 @@ from opentelemetry.instrumentation.django import DjangoInstrumentor
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
-from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter as OTLPHTTPSpanExporter
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter as OTLPHTTPSpanExporter
 from opentelemetry.trace import set_tracer_provider
 
 def setup_tracing(endpoint):
